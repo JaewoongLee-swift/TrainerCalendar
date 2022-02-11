@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D3A5FFA27B560CA0007605D /* MonthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3A5FF927B560CA0007605D /* MonthCollectionViewCell.swift */; };
 		9DBD708827B26328009D900A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBD708727B26328009D900A /* AppDelegate.swift */; };
 		9DBD708A27B26328009D900A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBD708927B26328009D900A /* SceneDelegate.swift */; };
 		9DBD709127B2632B009D900A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DBD709027B2632B009D900A /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9D3A5FF927B560CA0007605D /* MonthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DBD708427B26328009D900A /* TrainerCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrainerCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DBD708727B26328009D900A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9DBD708927B26328009D900A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				9DBD708727B26328009D900A /* AppDelegate.swift */,
 				9DBD708927B26328009D900A /* SceneDelegate.swift */,
 				9DBD709E27B26686009D900A /* MonthViewController.swift */,
+				9D3A5FF927B560CA0007605D /* MonthCollectionViewCell.swift */,
 				9DBD70A027B297D3009D900A /* CalendarModel.swift */,
 				9DBD709027B2632B009D900A /* Assets.xcassets */,
 				9DBD709227B2632B009D900A /* LaunchScreen.storyboard */,
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DBD708827B26328009D900A /* AppDelegate.swift in Sources */,
+				9D3A5FFA27B560CA0007605D /* MonthCollectionViewCell.swift in Sources */,
 				9DBD70A127B297D3009D900A /* CalendarModel.swift in Sources */,
 				9DBD708A27B26328009D900A /* SceneDelegate.swift in Sources */,
 				9DBD709F27B26686009D900A /* MonthViewController.swift in Sources */,

@@ -18,7 +18,8 @@ class CalendarModel {
     var yearMonth = ""
     
     // 현재 날짜기준 캘린더 세팅
-    init() {
+    func setup() {
+        print("CalendarModel - setup")
         dateFormatter.dateFormat = "yyyy년 M월"
         
         components.year = calendar.component(.year, from: now)
@@ -31,6 +32,7 @@ class CalendarModel {
     
     // 캘린더 세팅 기준 달력계산
     func calculation() {
+        print("CalendarModel - calculation")
         guard let firstDay = calendar.date(from: components) else { return }
         
         let firstWeekday = calendar.component(.weekday, from: firstDay)
