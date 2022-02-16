@@ -9,7 +9,12 @@ import UIKit
 import SnapKit
 
 class MonthCollectionViewCell: UICollectionViewCell {
-    lazy var separator: UIView = {
+    var isScheduled: Bool = false
+    var year: Int = 0
+    var month: Int = 0
+    var day: Int = 0
+    
+    private lazy var separator: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
         
@@ -24,13 +29,51 @@ class MonthCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    func setup(calendarModel: CalendarModel, row: Int) {
+    lazy var scheduleIndicator: UIImageView = {
+        let image = UIImage(systemName: "circle.fill")
+        
+        let view = UIImageView(image: image)
+        view.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        view.isHidden = true
+        
+        return view
+    }()
+    
+    func setup(calendarModel: CalendarModel, row: Int, member: [Member]) {
+        self.year = calendarModel.components.year ?? 0
+        self.month = calendarModel.components.month ?? 0
+        self.day = Int(calendarModel.days[row]) ?? 0
+        
+        matchInformation(member)
+        
+        if row % 7 == 0 || row % 7 == 6 {
+            dateLabel.textColor = .gray
+        }
+        if isScheduled {
+            scheduleIndicator.isHidden = false
+        }
+        
         dateLabel.text = calendarModel.days[row]
+        
         layout()
+    }
+}
+
+extension MonthCollectionViewCell {
+    func matchInformation(_ member: [Member]) {
+        for mem in member {
+            if mem.yearStart <= self.year, mem.yearFinish >= self.year {
+                if mem.monthStart <= self.month, mem.monthFinish >= self.month {
+                    if mem.dayStart <= self.day, mem.dayFinish >= self.day {
+                        isScheduled = true
+                    }
+                }
+            }
+        }
     }
     
     private func layout() {
-        [separator, dateLabel].forEach { addSubview($0) }
+        [separator, dateLabel, scheduleIndicator].forEach { addSubview($0) }
         
         separator.snp.makeConstraints {
             $0.height.equalTo(0.2)
@@ -40,6 +83,12 @@ class MonthCollectionViewCell: UICollectionViewCell {
         dateLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalToSuperview().inset(5.0)
+        }
+        
+        scheduleIndicator.snp.makeConstraints {
+            $0.height.width.equalTo(6.0)
+            $0.top.equalTo(dateLabel.snp.bottom)
+            $0.centerX.equalToSuperview()
         }
     }
 }
