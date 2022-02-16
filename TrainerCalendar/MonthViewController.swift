@@ -21,6 +21,7 @@ class MonthViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MonthCollectionViewCell.self, forCellWithReuseIdentifier: "MonthCollectionViewCell")
+        collectionView.register(MonthCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MonthCollectionHeaderView")
         
         return collectionView
     }()
@@ -59,6 +60,11 @@ extension MonthViewController: UICollectionViewDelegateFlowLayout {
         
         0.0
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSize(width: collectionView.frame.width, height: 15.0)
+    }
 }
 
 extension MonthViewController: UICollectionViewDataSource {
@@ -75,12 +81,24 @@ extension MonthViewController: UICollectionViewDataSource {
         return cell ?? UICollectionViewCell()
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "MonthCollectionHeaderView",
+                for: indexPath
+              ) as? MonthCollectionHeaderView
+        else { return UICollectionReusableView() }
+        
+        header.backgroundColor = .systemBackground
+        header.layout()
+        
+        return header
+    }
 }
 
 extension MonthViewController {
     private func setupNavigationController() {
-        title = "네비게이션 바"
         
         let searchButton = UIBarButtonItem(
             image: UIImage(systemName: "magnifyingglass"),
@@ -88,7 +106,7 @@ extension MonthViewController {
             target: self,
             action: nil
         )
-        
+
         let plusButton = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
             style: .plain,

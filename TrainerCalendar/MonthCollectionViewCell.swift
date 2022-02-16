@@ -18,7 +18,7 @@ class MonthCollectionViewCell: UICollectionViewCell {
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18.0, weight: .regular)
+        label.font = .systemFont(ofSize: 20.0, weight: .regular)
         label.textColor = .label
         
         return label
@@ -33,7 +33,7 @@ class MonthCollectionViewCell: UICollectionViewCell {
         [separator, dateLabel].forEach { addSubview($0) }
         
         separator.snp.makeConstraints {
-            $0.height.equalTo(0.3)
+            $0.height.equalTo(0.2)
             $0.leading.trailing.equalToSuperview()
         }
         
