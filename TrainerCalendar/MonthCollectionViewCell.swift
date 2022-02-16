@@ -9,9 +9,16 @@ import UIKit
 import SnapKit
 
 class MonthCollectionViewCell: UICollectionViewCell {
+    lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        
+        return view
+    }()
+    
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15.0, weight: .light)
+        label.font = .systemFont(ofSize: 18.0, weight: .regular)
         label.textColor = .label
         
         return label
@@ -23,7 +30,12 @@ class MonthCollectionViewCell: UICollectionViewCell {
     }
     
     private func layout() {
-        addSubview(dateLabel)
+        [separator, dateLabel].forEach { addSubview($0) }
+        
+        separator.snp.makeConstraints {
+            $0.height.equalTo(0.3)
+            $0.leading.trailing.equalToSuperview()
+        }
         
         dateLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()

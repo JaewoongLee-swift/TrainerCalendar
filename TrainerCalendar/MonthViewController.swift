@@ -15,8 +15,8 @@ class MonthViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        collectionView.backgroundColor = .tertiarySystemFill
-        
+        let color: UIColor = #colorLiteral(red: 0.9568627451, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        collectionView.backgroundColor = color
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -27,7 +27,6 @@ class MonthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         view.backgroundColor = .systemBackground
     
@@ -107,7 +106,9 @@ extension MonthViewController {
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(view.frame.width / 7.0 * 5.0)
         }
     }
 }
