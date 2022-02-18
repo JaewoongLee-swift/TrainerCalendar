@@ -16,6 +16,7 @@ class CalendarModel {
     var components = DateComponents()
     var days: [String] = []
     var yearMonth = ""
+    var today: Int
     
     // 현재 날짜기준 캘린더 세팅
     init() {
@@ -26,6 +27,7 @@ class CalendarModel {
         components.month = calendar.component(.month, from: now)
         // 현재 달의 1일 기준
         components.day = 1
+        today = calendar.component(.day, from: now)
         
         self.calculation()
     }

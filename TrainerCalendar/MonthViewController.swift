@@ -69,6 +69,29 @@ extension MonthViewController: UICollectionViewDelegateFlowLayout {
         
         return CGSize(width: collectionView.frame.width, height: 15.0)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { fatalError() }
+        
+        cell.setTappedColor()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { fatalError() }
+        
+        cell.setTappedColor()
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+//        guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { return true }
+//
+//        if cell.isSelected {
+//            collectionView.deselectItem(at: indexPath, animated: true)
+//            return false
+//        } else {
+//            return true
+//        }
+//    }
 }
 
 extension MonthViewController: UICollectionViewDataSource {

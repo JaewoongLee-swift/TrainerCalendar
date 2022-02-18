@@ -21,11 +21,19 @@ class MonthCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    private lazy var backgroundCircleView: UIImageView = {
+        let image = UIImage(systemName: "circle.fill")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .red
+        
+        return imageView
+    }()
+    
     lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20.0, weight: .regular)
         label.textColor = .label
-        
+
         return label
     }()
     
@@ -52,6 +60,9 @@ class MonthCollectionViewCell: UICollectionViewCell {
         if isScheduled {
             scheduleIndicator.isHidden = false
         }
+        if calendarModel.today == self.day {
+            dateLabel.textColor = .red
+        }
         
         dateLabel.text = calendarModel.days[row]
         
@@ -72,7 +83,19 @@ extension MonthCollectionViewCell {
         }
     }
     
+    func setTappedColor() {
+        let color = dateLabel.textColor
+        if dateLabel.textColor != .white {
+            backgroundCircleView.tintColor = color
+            dateLabel.textColor = .white
+        } else {
+            dateLabel.textColor = backgroundCircleView.tintColor
+            backgroundCircleView.tintColor = color
+        }
+    }
+    
     private func layout() {
+        self.selectedBackgroundView = backgroundCircleView
         [separator, dateLabel, scheduleIndicator].forEach { addSubview($0) }
         
         separator.snp.makeConstraints {
@@ -89,6 +112,12 @@ extension MonthCollectionViewCell {
             $0.height.width.equalTo(6.0)
             $0.top.equalTo(dateLabel.snp.bottom)
             $0.centerX.equalToSuperview()
+        }
+        
+        backgroundCircleView.snp.makeConstraints {
+            $0.centerX.equalTo(dateLabel.snp.centerX)
+            $0.centerY.equalTo(dateLabel.snp.centerY)
+            $0.height.width.equalTo(35.0)
         }
     }
 }
