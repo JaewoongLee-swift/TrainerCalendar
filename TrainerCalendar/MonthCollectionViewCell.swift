@@ -71,6 +71,7 @@ class MonthCollectionViewCell: UICollectionViewCell {
 }
 
 extension MonthCollectionViewCell {
+    
     func matchInformation(_ member: [Member]) {
         for mem in member {
             if mem.yearStart <= self.year, mem.yearFinish >= self.year {
@@ -83,14 +84,21 @@ extension MonthCollectionViewCell {
         }
     }
     
-    func setTappedColor() {
-        let color = dateLabel.textColor
-        if dateLabel.textColor != .white {
-            backgroundCircleView.tintColor = color
-            dateLabel.textColor = .white
+    func changeLabelAndBackgroundColor(_ calendarModel: CalendarModel) {
+        dateLabel.textColor = .white
+        
+        if calendarModel.today == self.day {
+            backgroundCircleView.tintColor = .red
         } else {
-            dateLabel.textColor = backgroundCircleView.tintColor
-            backgroundCircleView.tintColor = color
+            backgroundCircleView.tintColor = .label
+        }
+    }
+    
+    func changeLabelAndBackgroundBeforeColor(_ calendarModel: CalendarModel) {
+        if calendarModel.today == self.day {
+            dateLabel.textColor = .red
+        } else {
+            dateLabel.textColor = .label
         }
     }
     
