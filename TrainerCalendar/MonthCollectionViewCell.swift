@@ -62,6 +62,7 @@ class MonthCollectionViewCell: UICollectionViewCell {
         }
         if calendarModel.today == self.day {
             dateLabel.textColor = .red
+            self.isSelected = true
         }
         
         dateLabel.text = calendarModel.days[row]
