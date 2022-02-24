@@ -12,7 +12,7 @@ class MonthViewController: UIViewController {
     let woong = Member(name: "이재웅", birth: "1996-06-24", class: "기간권", yearStart: 2022, monthStart: 2, dayStart: 10, yearFinish: 2022, monthFinish: 2, dayFinish: 20)
     
     private var member: [Member] = []
-    private var membersInSelectedDay: [Member] = []
+    private lazy var selectedDayMembers: [Member] = []
     private var selectedDay: Int = 0
     
     private lazy var calendarModel = CalendarModel()
@@ -25,18 +25,16 @@ class MonthViewController: UIViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let frameCVLayout = UICollectionViewFlowLayout()
+        let frameCV = UICollectionView(frame: .zero, collectionViewLayout: frameCVLayout)
+    
+        frameCV.backgroundColor = .systemBackground
         
-        let color: UIColor = #colorLiteral(red: 0.9568627451, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
-        collectionView.backgroundColor = color
+        frameCV.delegate = self
+        frameCV.dataSource = self
+        frameCV.register(MonthFrameCollectionViewCell.self, forCellWithReuseIdentifier: "MonthFrameCollectionViewCell")
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(MonthCollectionViewCell.self, forCellWithReuseIdentifier: "MonthCollectionViewCell")
-        collectionView.register(MonthCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MonthCollectionHeaderView")
-        
-        return collectionView
+        return frameCV
     }()
     
     private lazy var tableView: UITableView = {
@@ -48,6 +46,7 @@ class MonthViewController: UIViewController {
         //MARK: prefetchDataSource 구현필요
 //      tableView.prefetchDataSource = self
         tableView.rowHeight = 50.0
+        print("테이블뷰 제대로됨")
         
         return tableView
     }()
@@ -63,79 +62,30 @@ class MonthViewController: UIViewController {
     }
 }
 //--------------------------------------------------------------------------------------
-//  CollectionView DelegateFlowLayout / DataSource
+//  FrameCollectionView DelegateFlowLayout / DataSource
 //--------------------------------------------------------------------------------------
 extension MonthViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = collectionView.frame.width / 7.0
-
+        let width: CGFloat = view.frame.width
+        
         return CGSize(width: width, height: width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let value: CGFloat = 0
-
-        return UIEdgeInsets(top: value, left: value, bottom: value, right: value)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        0.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        
-        0.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        return CGSize(width: collectionView.frame.width, height: 15.0)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { fatalError() }
-        
-        cell.changeLabelAndBackgroundColor(calendarModel)
-        findMemberInDay(cell.day)
-        self.tableView.reloadData()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { fatalError() }
-        
-        cell.changeLabelAndBackgroundBeforeColor(calendarModel)
     }
 }
 
 extension MonthViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let daysCount = calendarModel.days.count
-        return daysCount
+        
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MonthCollectionViewCell", for: indexPath) as? MonthCollectionViewCell else { return UICollectionViewCell() }
-        
-        cell.setup(calendarModel: calendarModel, row: indexPath.row, member: member)
-        //MARK: collectionView 초기화 시 오늘날짜 cell 선택되있도록 구현
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MonthFrameCollectionViewCell", for: indexPath) as? MonthFrameCollectionViewCell else { return UICollectionViewCell() }
+
+        cell.setup(calendarModel: calendarModel, member: member)
         
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader,
-              let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "MonthCollectionHeaderView",
-                for: indexPath
-              ) as? MonthCollectionHeaderView
-        else { return UICollectionReusableView() }
-        
-        header.backgroundColor = .systemBackground
-        header.layout()
-        
-        return header
     }
 }
 //--------------------------------------------------------------------------------------
@@ -148,14 +98,15 @@ extension MonthViewController: UITableViewDelegate {
 extension MonthViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MonthTableViewCell", for: indexPath) as? MonthTableViewCell else { return UITableViewCell() }
-        cell.setup(selectedMember: membersInSelectedDay[indexPath.row])
+        cell.setup(selectedMember: selectedDayMembers[indexPath.row])
+        print("tableView 생성")
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return membersInSelectedDay.count
+        return selectedDayMembers.count
     }
 }
 //--------------------------------------------------------------------------------------
@@ -163,17 +114,10 @@ extension MonthViewController: UITableViewDataSource {
 //--------------------------------------------------------------------------------------
 
 extension MonthViewController {
-    private func findMemberInDay(_ day: Int) {
-        membersInSelectedDay = []
-        selectedDay = day
-        
-        for mem in member {
-            if mem.dayStart <= selectedDay, mem.dayFinish >= selectedDay {
-                membersInSelectedDay.append(mem)
-            }
-        }
-        
-        //MARK: memberInSelectedDay 배열, 기간권 / PT시간 기준으로 순서 재정렬 구현
+    func setMemberList(selectedMembers: [Member]) {
+        selectedDayMembers = selectedMembers
+
+        //MARK: 테이블뷰 reloadData() 및 재구성 해결필요
     }
     
     private func setupNavigationController() {
@@ -202,7 +146,7 @@ extension MonthViewController {
         collectionView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo((view.frame.width / 7.0 + 5.0) * 5.0)
+            $0.height.equalTo((view.frame.width / 7.0) * 5.0 + 15.0)
         }
         
         separateView.snp.makeConstraints {

@@ -13,6 +13,7 @@ class MonthCollectionViewCell: UICollectionViewCell {
     var year: Int = 0
     var month: Int = 0
     var day: Int = 0
+    var days: [String] = []
     
     private lazy var separator: UIView = {
         let view = UIView()
@@ -41,16 +42,17 @@ class MonthCollectionViewCell: UICollectionViewCell {
         let image = UIImage(systemName: "circle.fill")
         
         let view = UIImageView(image: image)
-        view.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        view.tintColor = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
         view.isHidden = true
         
         return view
     }()
     
-    func setup(calendarModel: CalendarModel, row: Int, member: [Member]) {
-        self.year = calendarModel.components.year ?? 0
-        self.month = calendarModel.components.month ?? 0
-        self.day = Int(calendarModel.days[row]) ?? 0
+    func setup(year: Int, month: Int, days: [String], today: Int, row: Int, member: [Member]) {
+        self.year = year
+        self.month = month
+        self.days = days
+        self.day = Int(self.days[row]) ?? 0
         
         matchInformation(member)
         
@@ -60,12 +62,12 @@ class MonthCollectionViewCell: UICollectionViewCell {
         if isScheduled {
             scheduleIndicator.isHidden = false
         }
-        if calendarModel.today == self.day {
+        if today == self.day {
             dateLabel.textColor = .red
             self.isSelected = true
         }
         
-        dateLabel.text = calendarModel.days[row]
+        dateLabel.text = self.days[row]
         
         layout()
     }
@@ -85,18 +87,20 @@ extension MonthCollectionViewCell {
         }
     }
     
-    func changeLabelAndBackgroundColor(_ calendarModel: CalendarModel) {
+    func changeLabelAndBackgroundColor(today: Int) {
         dateLabel.textColor = .white
+        dateLabel.font = .systemFont(ofSize: 20.0, weight: .bold)
         
-        if calendarModel.today == self.day {
+        if today == self.day {
             backgroundCircleView.tintColor = .red
         } else {
             backgroundCircleView.tintColor = .label
         }
     }
     
-    func changeLabelAndBackgroundBeforeColor(_ calendarModel: CalendarModel) {
-        if calendarModel.today == self.day {
+    func changeLabelAndBackgroundBeforeColor(today: Int) {
+        dateLabel.font = .systemFont(ofSize: 20.0, weight: .regular)
+        if today == self.day {
             dateLabel.textColor = .red
         } else {
             dateLabel.textColor = .label

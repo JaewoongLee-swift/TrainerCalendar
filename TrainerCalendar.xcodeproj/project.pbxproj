@@ -18,6 +18,7 @@
 		9DBF57C327C20037006F434B /* MonthTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBF57C227C20037006F434B /* MonthTableViewCell.swift */; };
 		9DC97FDC27BCEB6C005E671A /* MonthCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC97FDB27BCEB6C005E671A /* MonthCollectionHeaderView.swift */; };
 		9DC97FDE27BD22FF005E671A /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC97FDD27BD22FF005E671A /* Member.swift */; };
+		9DCE343A27C5272300C6B0A6 /* MonthFrameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCE343927C5272300C6B0A6 /* MonthFrameCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		9DBF57C227C20037006F434B /* MonthTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthTableViewCell.swift; sourceTree = "<group>"; };
 		9DC97FDB27BCEB6C005E671A /* MonthCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthCollectionHeaderView.swift; sourceTree = "<group>"; };
 		9DC97FDD27BD22FF005E671A /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		9DCE343927C5272300C6B0A6 /* MonthFrameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthFrameCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				9DBD708727B26328009D900A /* AppDelegate.swift */,
 				9DBD708927B26328009D900A /* SceneDelegate.swift */,
 				9DBD709E27B26686009D900A /* MonthViewController.swift */,
+				9DCE343927C5272300C6B0A6 /* MonthFrameCollectionViewCell.swift */,
 				9D3A5FF927B560CA0007605D /* MonthCollectionViewCell.swift */,
 				9DC97FDB27BCEB6C005E671A /* MonthCollectionHeaderView.swift */,
 				9DBF57C227C20037006F434B /* MonthTableViewCell.swift */,
@@ -162,6 +165,7 @@
 				9D3A5FFA27B560CA0007605D /* MonthCollectionViewCell.swift in Sources */,
 				9DC97FDE27BD22FF005E671A /* Member.swift in Sources */,
 				9DBF57C327C20037006F434B /* MonthTableViewCell.swift in Sources */,
+				9DCE343A27C5272300C6B0A6 /* MonthFrameCollectionViewCell.swift in Sources */,
 				9DBD70A127B297D3009D900A /* CalendarModel.swift in Sources */,
 				9DBD708A27B26328009D900A /* SceneDelegate.swift in Sources */,
 				9DBD709F27B26686009D900A /* MonthViewController.swift in Sources */,
