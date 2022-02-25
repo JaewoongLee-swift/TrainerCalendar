@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class MonthFrameCollectionViewCell: UICollectionViewCell {
-    let monthVC = MonthViewController()
+    weak var delegate: SelectedDayDelegate?
     
     private var member: [Member] = []
     private var selectedDayMembers: [Member] = []
@@ -84,7 +84,7 @@ extension MonthFrameCollectionViewCell: UICollectionViewDelegateFlowLayout {
 
         cell.changeLabelAndBackgroundColor(today: today)
         findMemberInDay(cell.day)
-        monthVC.setMemberList(selectedMembers: selectedDayMembers)
+        self.delegate?.setMemberList(selectedMembers: selectedDayMembers)
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -153,4 +153,9 @@ extension MonthFrameCollectionViewCell {
             $0.edges.equalToSuperview()
         }
     }
+}
+
+
+protocol SelectedDayDelegate: class {
+    func setMemberList(selectedMembers: [Member])
 }

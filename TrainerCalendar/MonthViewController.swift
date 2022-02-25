@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MonthViewController: UIViewController {
+class MonthViewController: UIViewController, SelectedDayDelegate {
     let woong = Member(name: "이재웅", birth: "1996-06-24", class: "기간권", yearStart: 2022, monthStart: 2, dayStart: 10, yearFinish: 2022, monthFinish: 2, dayFinish: 20)
     
     private var member: [Member] = []
@@ -46,7 +46,6 @@ class MonthViewController: UIViewController {
         //MARK: prefetchDataSource 구현필요
 //      tableView.prefetchDataSource = self
         tableView.rowHeight = 50.0
-        print("테이블뷰 제대로됨")
         
         return tableView
     }()
@@ -84,6 +83,7 @@ extension MonthViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MonthFrameCollectionViewCell", for: indexPath) as? MonthFrameCollectionViewCell else { return UICollectionViewCell() }
 
         cell.setup(calendarModel: calendarModel, member: member)
+        cell.delegate = self
         
         return cell
     }
@@ -99,7 +99,6 @@ extension MonthViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "MonthTableViewCell", for: indexPath) as? MonthTableViewCell else { return UITableViewCell() }
         cell.setup(selectedMember: selectedDayMembers[indexPath.row])
-        print("tableView 생성")
         
         return cell
     }
@@ -116,8 +115,8 @@ extension MonthViewController: UITableViewDataSource {
 extension MonthViewController {
     func setMemberList(selectedMembers: [Member]) {
         selectedDayMembers = selectedMembers
-
-        //MARK: 테이블뷰 reloadData() 및 재구성 해결필요
+        
+        self.tableView.reloadData()
     }
     
     private func setupNavigationController() {
