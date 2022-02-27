@@ -32,7 +32,6 @@ class MonthFrameCollectionViewCell: UICollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(MonthCollectionViewCell.self, forCellWithReuseIdentifier: "MonthCollectionViewCell")
-        collectionView.register(MonthCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MonthCollectionHeaderView")
         
         return collectionView
     }()
@@ -74,11 +73,6 @@ extension MonthFrameCollectionViewCell: UICollectionViewDelegateFlowLayout {
         0.0
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-
-        return CGSize(width: collectionView.frame.width, height: 15.0)
-    }
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { fatalError() }
 
@@ -109,21 +103,6 @@ extension MonthFrameCollectionViewCell: UICollectionViewDataSource {
         cell.matchInformation(member)
 
         return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader,
-              let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "MonthCollectionHeaderView",
-                for: indexPath
-              ) as? MonthCollectionHeaderView
-        else { return UICollectionReusableView() }
-
-        header.backgroundColor = .systemBackground
-        header.layout()
-
-        return header
     }
 }
 

@@ -26,6 +26,7 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
     
     private lazy var collectionView: UICollectionView = {
         let frameCVLayout = UICollectionViewFlowLayout()
+        frameCVLayout.sectionHeadersPinToVisibleBounds = true
         let frameCV = UICollectionView(frame: .zero, collectionViewLayout: frameCVLayout)
     
         frameCV.backgroundColor = .systemBackground
@@ -33,6 +34,7 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
         frameCV.delegate = self
         frameCV.dataSource = self
         frameCV.register(MonthFrameCollectionViewCell.self, forCellWithReuseIdentifier: "MonthFrameCollectionViewCell")
+        frameCV.register(MonthCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "MonthCollectionHeaderView")
         
         return frameCV
     }()
@@ -64,11 +66,15 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
 //  FrameCollectionView DelegateFlowLayout / DataSource
 //--------------------------------------------------------------------------------------
 extension MonthViewController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = view.frame.width
         
         return CGSize(width: width, height: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+
+        return CGSize(width: collectionView.frame.width, height: 15.0)
     }
 }
 
@@ -86,6 +92,21 @@ extension MonthViewController: UICollectionViewDataSource {
         cell.delegate = self
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "MonthCollectionHeaderView",
+                for: indexPath
+              ) as? MonthCollectionHeaderView
+        else { return UICollectionReusableView() }
+
+        header.backgroundColor = .systemBackground
+        header.layout()
+
+        return header
     }
 }
 //--------------------------------------------------------------------------------------
