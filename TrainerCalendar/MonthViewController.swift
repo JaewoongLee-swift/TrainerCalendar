@@ -67,9 +67,10 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
 //--------------------------------------------------------------------------------------
 extension MonthViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = view.frame.width
+        let width: CGFloat = collectionView.frame.width
+        let height = (width / 7) * 5
         
-        return CGSize(width: width, height: width)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

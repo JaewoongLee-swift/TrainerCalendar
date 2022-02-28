@@ -126,7 +126,7 @@ extension MonthFrameCollectionViewCell {
     }
     
     private func layout() {
-        self.addSubview(collectionView)
+        addSubview(collectionView)
 
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
