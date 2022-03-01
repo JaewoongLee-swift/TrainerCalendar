@@ -11,9 +11,11 @@ import SnapKit
 class MonthFrameCollectionViewCell: UICollectionViewCell {
     weak var delegate: SelectedDayDelegate?
     
+    private var calendarModel = CalendarModel()
+    
     private var member: [Member] = []
     private var selectedDayMembers: [Member] = []
-    private var selectedDay: Int = 0
+//    private var selectedDay: Int = 0
     
     private var isScheduled: Bool = false
     
@@ -36,7 +38,9 @@ class MonthFrameCollectionViewCell: UICollectionViewCell {
         return collectionView
     }()
     
-    func setup(calendarModel: CalendarModel, member: [Member]) {
+    func setup(member: [Member], row: Int) {
+        calendarModel.setup(row: row)
+        
         year = calendarModel.components.year ?? 0
         month = calendarModel.components.month ?? 0
         days = calendarModel.days
@@ -77,7 +81,7 @@ extension MonthFrameCollectionViewCell: UICollectionViewDelegateFlowLayout {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MonthCollectionViewCell else { fatalError() }
 
         cell.changeLabelAndBackgroundColor(today: today)
-        findMemberInDay(cell.day)
+        findMemberInDay(day: cell.day, month: cell.month, year: cell.year)
         self.delegate?.setMemberList(selectedMembers: selectedDayMembers)
     }
 
@@ -112,13 +116,16 @@ extension MonthFrameCollectionViewCell: UICollectionViewDataSource {
 
 extension MonthFrameCollectionViewCell {
     
-    private func findMemberInDay(_ day: Int) {
+    private func findMemberInDay(day: Int, month: Int, year: Int) {
         selectedDayMembers = []
-        selectedDay = day
 
         for mem in member {
-            if mem.dayStart <= selectedDay, mem.dayFinish >= selectedDay {
-                selectedDayMembers.append(mem)
+            if mem.yearStart <= year, mem.yearFinish >= year {
+                if mem.monthStart <= month, mem.monthFinish >= month {
+                    if mem.dayStart <= day, mem.dayFinish >= day {
+                        selectedDayMembers.append(mem)
+                    }
+                }
             }
         }
 

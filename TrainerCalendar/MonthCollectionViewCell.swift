@@ -54,6 +54,7 @@ class MonthCollectionViewCell: UICollectionViewCell {
         self.days = days
         self.day = Int(self.days[row]) ?? 0
         
+        
         matchInformation(member)
         
         if row % 7 == 0 || row % 7 == 6 {

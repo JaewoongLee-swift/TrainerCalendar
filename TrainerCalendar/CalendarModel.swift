@@ -16,15 +16,14 @@ class CalendarModel {
     var components = DateComponents()
     var days: [String] = []
     var yearMonth = ""
-    var today: Int
+    var today = 0
     
     // 현재 날짜기준 캘린더 세팅
-    init() {
-        print("CalendarModel - setup")
+    func setup(row: Int) {
         dateFormatter.dateFormat = "yyyy년 M월"
         
         components.year = calendar.component(.year, from: now)
-        components.month = calendar.component(.month, from: now)
+        components.month = calendar.component(.month, from: now) - 1 + row
         // 현재 달의 1일 기준
         components.day = 1
         today = calendar.component(.day, from: now)
@@ -36,7 +35,6 @@ class CalendarModel {
     
     // 캘린더 세팅 기준 달력계산
     func calculation() {
-        print("CalendarModel - calculation")
         guard let firstDay = calendar.date(from: components) else { return }
         
         let firstWeekday = calendar.component(.weekday, from: firstDay)

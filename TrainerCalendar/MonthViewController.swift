@@ -9,13 +9,11 @@ import UIKit
 import SnapKit
 
 class MonthViewController: UIViewController, SelectedDayDelegate {
-    let woong = Member(name: "이재웅", birth: "1996-06-24", class: "기간권", yearStart: 2022, monthStart: 2, dayStart: 10, yearFinish: 2022, monthFinish: 2, dayFinish: 20)
+    let woong = Member(name: "이재웅", birth: "1996-06-24", class: "기간권", yearStart: 2022, monthStart: 3, dayStart: 10, yearFinish: 2022, monthFinish: 3, dayFinish: 20)
     
     private var member: [Member] = []
     private lazy var selectedDayMembers: [Member] = []
     private var selectedDay: Int = 0
-    
-    private lazy var calendarModel = CalendarModel()
     
     private lazy var separateView: UIView = {
         let view = UIView()
@@ -60,6 +58,7 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
         member.append(woong)
         setupNavigationController()
         layout()
+//        collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .bottom, animated: false)
     }
 }
 //--------------------------------------------------------------------------------------
@@ -80,16 +79,15 @@ extension MonthViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension MonthViewController: UICollectionViewDataSource {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 1
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MonthFrameCollectionViewCell", for: indexPath) as? MonthFrameCollectionViewCell else { return UICollectionViewCell() }
 
-        cell.setup(calendarModel: calendarModel, member: member)
+        cell.setup(member: member, row: indexPath.row)
         cell.delegate = self
         
         return cell
