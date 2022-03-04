@@ -28,6 +28,7 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
         let frameCV = UICollectionView(frame: .zero, collectionViewLayout: frameCVLayout)
     
         frameCV.backgroundColor = .systemBackground
+        frameCV.isPagingEnabled = true
         
         frameCV.delegate = self
         frameCV.dataSource = self
@@ -58,7 +59,10 @@ class MonthViewController: UIViewController, SelectedDayDelegate {
         member.append(woong)
         setupNavigationController()
         layout()
-//        collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .bottom, animated: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        collectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .centeredHorizontally, animated: false)
     }
 }
 //--------------------------------------------------------------------------------------
